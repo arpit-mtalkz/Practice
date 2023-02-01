@@ -242,10 +242,8 @@ class contactBook():
             print(i)
         d=input("Enter new name to update : ")
         newvalue={"$set":{"Name":d}}
-        z=mycol.update_one(myquery,newvalue)
-        for i in z:
-            print(i)
-
+        mycol.update_one(myquery,newvalue)
+        
         return newvalue
 
 

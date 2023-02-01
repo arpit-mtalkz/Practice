@@ -1,4 +1,9 @@
 import Contact_book 
+from flask import Flask
+
+app=Flask(__name__)
+
+
 
 object1=Contact_book.phonebook()
 
@@ -14,3 +19,4 @@ object6=Contact_book.search_contact()
 
 object7=Contact_book.update_contact()
 
+object8=Contact_book.display_all()
