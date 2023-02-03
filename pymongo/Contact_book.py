@@ -5,7 +5,6 @@ client = pymongo.MongoClient("mongodb+srv://arpit-mtalkz:12345@cluster0.cbks6s7.
 contact=client["Contact"]
 mycol=contact["Book"]
 
-
 class contactBook():
 
 
@@ -24,25 +23,17 @@ class contactBook():
             print("\nEnter contact %d details in the following order (ONLY):" % (i+1))
 
 
-
-
-
-
-
-
         # Input field's which are predefined and shown to user when asked to save the number
 
-            category0="_id"
-            id=input("Enter the id : ")
-            mydoc[category0]=id
 
-
-            category1="Name"
+            
             name=input("Enter the name : ")
+            x = mycol.find({"name": name})
+            category1="Name"
             mydoc[category1]=name
             if mydoc[category1]=='' or mydoc[category1]==' ':
                 sys.exit("Mandatory Field")
-
+    
 
             category2="Number"
             num=int(input("Enter the number : "))
@@ -68,14 +59,22 @@ class contactBook():
             mydoc[category5]=category   
             phone_book.append(mydoc)
 
+            x = mycol.find({"name": name})
+            if mydoc[category1]==x:
+                print('Name already exist')
 
 
         x=mycol.insert_many(phone_book)
+        
         return phone_book  
 
     #Menu which will show user to choose or perform action
     def menu():
+        print("\t--------------------------------------------------------------\n")
+        print("\tWelcome to smart phone directory\n")
+        print("\t--------------------------------------------------------------\n")
         print("\tYou can now perform the following operations on this phonebook\n")
+        print("\t--------------------------------------------------------------\n")
         print("1. Add multiple contacts")
         print("2. Add a new contact")
         print("3. Remove an existing contact")
@@ -84,7 +83,9 @@ class contactBook():
         print("6. Update a contact present in directory")
         print("7. Display all contacts")
         print("8. Exit phonebook")
+        print("\t--------------------------------------------------------------\n")
         choice=int(input("Please Enter Your Choice : "))
+
 
         return (choice)
 
@@ -94,12 +95,10 @@ class contactBook():
 
         myContact={}
 
-        category0="_id"
-        id=input("Enter ID : ")
-        myContact[category0]=id
 
-        category1="Name"
+        
         name=input("Enter the name : ")
+        category1="Name" 
         myContact[category1]=name
         if myContact[category1]=='' or myContact[category1]==' ':
             sys.exit("Mandatory Field")
@@ -123,6 +122,7 @@ class contactBook():
         category5="Category"
         category=input("Enter category(Family/Friends/Work/Others): ")
         myContact[category5]=category 
+
 
         x=mycol.insert_one(myContact) 
 
@@ -157,7 +157,7 @@ class contactBook():
             for i in x:
                 print(i)
 
-            return mycol
+            return x
 
         # Searching contacts by entering number which is stored in contactbook
         def search_by_number():
@@ -229,6 +229,7 @@ class contactBook():
                 x=search_by_category()
             else:
                 print("Please enter a valid input !")
+                menu()
 
 
         return ch
@@ -243,10 +244,8 @@ class contactBook():
         d=input("Enter new name to update : ")
         newvalue={"$set":{"Name":d}}
         z=mycol.update_one(myquery,newvalue)
-        for i in z:
-            print(i)
-
-        return newvalue
+        
+        return z
 
 
 
@@ -259,8 +258,14 @@ class contactBook():
 
 
     def thanks():
-        print("Thank you")
-        sys.exit("Have a good day")
+    
+        print("1.Do you really wish to exit")
+        cho=input("")
+        if cho=="y":
+            sys.exit
+        else:
+                
+        return cho
 
 
     ch = 1
